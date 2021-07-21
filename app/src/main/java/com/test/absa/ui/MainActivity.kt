@@ -27,27 +27,31 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val retrofit = Retrofit.Builder().addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(Constants.BASE_URL).build()
+        this.getCountiesData()
+    }
 
-        val countryEndpoint = retrofit.create(IHadleNetworkAPI::class.java)
+    private fun getCountiesData() {
+        val retrofit = Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .baseUrl(Constants.BASE_URL).build()
 
-        var response: Observable<List<Country>> = countryEndpoint.getAllCountries()
+        val service = retrofit.create(ICountryService::class.java)
+
+        var response: Observable<List<Country>> = service.getAllCountries()
 
         response.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler()).subscribe {
             layoutManager = LinearLayoutManager(this)
+            country_recyclerView.layoutManager = layoutManager
             country_recyclerView.adapter = CountryNameAdapter(this, it)
 
             fun addData() {
-                for(item in it ){
-                    // Adding data to countries array for filtering
+                for (item in it) {
                     countriesArrayList.add(item)
                 }
             }
             addData()
-
         }
-
     }
+
 }

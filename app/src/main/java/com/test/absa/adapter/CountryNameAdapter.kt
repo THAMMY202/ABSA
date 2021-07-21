@@ -3,6 +3,7 @@ package com.test.absa.adapter
 import android.app.Activity
 import android.content.Context
 import android.net.Uri
+import android.provider.Settings.Global.getString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,7 @@ import com.test.absa.R
 import com.test.absa.model.Country
 import kotlinx.android.synthetic.main.country_layout.view.*
 
-class CountryNameAdapter(val context: Context, var CountryList: List<Country>) :
+class CountryNameAdapter(private val context: Context, var CountryList: List<Country>) :
     RecyclerView.Adapter<CountryNameAdapter.CustomViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):CustomViewHolder {
@@ -33,6 +34,7 @@ class CountryNameAdapter(val context: Context, var CountryList: List<Country>) :
 
         holder.view.name?.text = CountryList[position].name
         holder.view.capital?.text = "Capital - " +CountryList[position].capital
+        //holder.view.capital?.text = getString(R.string.capital_key, CountryList[position].capital);
 
         var thumbnailImageView = holder.view.flag_imageView
         GlideToVectorYou.justLoadImage(holder.view.context as Activity?, Uri.parse(CountryList[position].flag), thumbnailImageView)
@@ -40,9 +42,10 @@ class CountryNameAdapter(val context: Context, var CountryList: List<Country>) :
         holder?.name = name
     }
 
+
     class CustomViewHolder(var view: View,var name: String? = null): RecyclerView.ViewHolder(view){
         companion object {
-            var country_name = "name"
+            var country_name = "Country name"
         }
         init{
             view.setOnClickListener{
