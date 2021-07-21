@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:padding="@dimen/layout_margin"
+    tools:context=".ui.MainActivity">
 
     <SearchView
         android:id="@+id/searchView"
@@ -12,7 +13,13 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:iconifiedByDefault="false"
-        android:inputType="textPersonName"
+        android:inputType="textAutoCorrect"
         android:queryHint="@string/search" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@+id/searchView"
+        android:id="@+id/country_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>
