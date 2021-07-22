@@ -125,6 +125,6 @@ interface ICountryService_detail {
     ): Observable<List<Country>>
 
     @GET("{alpha}")
-    fun getAllCountryAlpha3code(@Path("alpha") alpha: String): Observable<Country>
+    fun getCountryByAlpha(@Path("alpha") alpha: String): Observable<Country>
 
 }

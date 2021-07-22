@@ -1,7 +1,5 @@
 package com.test.absa.ui
 
-import android.content.Context
-import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -16,7 +14,6 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_country_details.*
-import kotlinx.android.synthetic.main.country_layout.view.*
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -42,7 +39,7 @@ class CountryDetailsActivity : AppCompatActivity() {
             .baseUrl("https://restcountries.eu/rest/v2/alpha/").build()
 
         var service = retrofit.create(ICountryService_detail::class.java)
-        var response: Observable<Country> = service.getAllCountryAlpha3code(alphaCode.toString())
+        var response: Observable<Country> = service.getCountryByAlpha(alphaCode.toString())
 
         response.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe {
             renderCountryData(it)
