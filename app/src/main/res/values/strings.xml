@@ -5,4 +5,5 @@
     <string name="countryName">South Africa</string>
     <string name="search">Search</string>
     <string name="no_internet_error">Internet access is required</string>
+    <string name="flag">Flag</string>
 </resources>

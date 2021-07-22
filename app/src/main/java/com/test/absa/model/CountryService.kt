@@ -121,6 +121,10 @@ interface ICountryService {
 interface ICountryService_detail {
 
     @GET("{name}")
-    fun getAllCountriesByName(@Path("name") name: String,
-                            @Query("fullText") fullText:String): Observable<List<Country>>
+    fun getAllCountriesByName(@Path("name") name: String, @Query("fullText") fullText: String
+    ): Observable<List<Country>>
+
+    @GET("{alpha}")
+    fun getAllCountryAlpha3code(@Path("alpha") alpha: String): Observable<Country>
+
 }

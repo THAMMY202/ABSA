@@ -1,6 +1,7 @@
 package com.test.absa.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.test.absa.R
 import com.test.absa.model.Country
+import com.test.absa.ui.CountryDetailsActivity
 import kotlinx.android.synthetic.main.country_layout.view.*
-
 
 class CountryNameAdapter(private val context: Context, var CountryList: List<Country>) :
     RecyclerView.Adapter<CountryNameAdapter.CustomViewHolder>() {
@@ -29,28 +30,33 @@ class CountryNameAdapter(private val context: Context, var CountryList: List<Cou
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
 
-        var name = CountryList[position].name
-
         holder.view.name?.text = CountryList[position].name
-        holder.view.capital?.text = concatenate(context.getString(R.string.capital_key)," ",CountryList[position].capital)
+        holder.view.capital?.text = concatenate(context.getString(R.string.capital_key), " ", CountryList[position].capital)
 
         GlideToVectorYou
             .init()
             .with(holder.view.context)
-            .load(Uri.parse(CountryList[position].flag), holder.view.flag_imageView);
+            .load(Uri.parse(CountryList[position].flag), holder.view.flag_imageView)
 
-        holder?.name = name
+        holder?.alpha = CountryList[position].alpha3Code
+        holder?.name = CountryList[position].name
     }
 
 
-    class CustomViewHolder(var view: View, var name: String? = null) :
+    class CustomViewHolder(var view: View, var alpha: String? = null,var name: String? = null) :
         RecyclerView.ViewHolder(view) {
         companion object {
-            var country_name = "Country name"
+            var alphaCode = "alpha"
+            var countryName = "name"
         }
 
         init {
             view.setOnClickListener {
+                var intent = Intent(view.context, CountryDetailsActivity::class.java)
+                intent.putExtra(alphaCode, alpha)
+                intent.putExtra(countryName, name)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK;
+                view.context.startActivity(intent)
             }
         }
     }
