@@ -17,6 +17,14 @@
         android:queryHint="@string/search"
         android:focusable="true" />
 
+    <TextView
+        android:visibility="gone"
+        android:text="@string/no_internet_error"
+        android:id="@+id/internet_Text"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_below="@+id/searchView"
         android:id="@+id/country_recyclerView"

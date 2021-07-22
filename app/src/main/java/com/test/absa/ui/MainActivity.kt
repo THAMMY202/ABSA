@@ -1,11 +1,11 @@
 package com.test.absa.ui
 
+import android.content.Context
+import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.widget.EditText
-import androidx.appcompat.widget.SearchView
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.test.absa.R
@@ -31,7 +31,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        this.getCountiesData()
+        if (isNetworkAvailbale()) {
+            this.getCountiesData()
+        } else {
+            internet_Text.visibility = View.VISIBLE
+        }
 
         searchView.setOnQueryTextListener(object : android.widget.SearchView.OnQueryTextListener {
 
@@ -46,7 +50,7 @@ class MainActivity : AppCompatActivity() {
                     countriesArrayList.forEach {
 
                         if (it.name.toLowerCase().contains(search)) {
-                            Log.d("TAG",it.name)
+                            Log.d("TAG", it.name)
                             displayArrayList.add(it)
                         }
                     }
@@ -56,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                 country_recyclerView.adapter = CountryNameAdapter(baseContext, displayArrayList)
                 country_recyclerView.adapter?.notifyDataSetChanged()
                 return true
-                }
+            }
         })
     }
 
@@ -69,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         val service = retrofit.create(ICountryService::class.java)
 
         var response: Observable<List<Country>> = service.getAllCountries()
-        Log.d("TAG",response.toString())
+        Log.d("TAG", response.toString())
 
         response.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler()).subscribe {
             layoutManager = LinearLayoutManager(this)
@@ -79,10 +83,21 @@ class MainActivity : AppCompatActivity() {
             fun addData() {
                 for (item in it) {
                     countriesArrayList.add(item)
-                    Log.d("TAG",it.toString())
+                    Log.d("TAG", it.toString())
                 }
             }
             addData()
+        }
+    }
+
+    private fun isNetworkAvailbale(): Boolean {
+        return try {
+            val conManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val internetInfo = conManager.activeNetworkInfo
+            internetInfo != null && internetInfo.isConnected
+        } catch (e: Exception) {
+            Log.d("TAG", e.toString())
+            false
         }
     }
 }

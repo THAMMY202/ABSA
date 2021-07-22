@@ -32,7 +32,7 @@ class CountryNameAdapter(private val context: Context, var CountryList: List<Cou
         var name = CountryList[position].name
 
         holder.view.name?.text = CountryList[position].name
-        holder.view.capital?.text = concatenate(context.getString(R.string.capital_key),CountryList[position].capital)
+        holder.view.capital?.text = concatenate(context.getString(R.string.capital_key)," ",CountryList[position].capital)
 
         GlideToVectorYou
             .init()
