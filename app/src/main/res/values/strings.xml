@@ -9,4 +9,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="loading">Loading. Please wait...</string>
+    <string name="developer">Developed by T Shabalala</string>
+    <string name="earth_slogan">No earth, no life!</string>
 </resources>

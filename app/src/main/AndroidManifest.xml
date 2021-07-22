@@ -13,9 +13,10 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ABSA">
-        <activity android:name=".ui.CountryDetailsActivity"></activity>
-        <activity android:name=".ui.MainActivity">
+        android:theme="@style/Theme.ABSA.Splash">
+        <activity android:name=".ui.CountryDetailsActivity" android:theme="@style/Theme.ABSA"/>
+        <activity android:name=".ui.MainActivity" android:theme="@style/Theme.ABSA"/>
+        <activity android:name=".ui.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
