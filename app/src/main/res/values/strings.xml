@@ -6,4 +6,7 @@
     <string name="search">Search</string>
     <string name="no_internet_error">Internet access is required</string>
     <string name="flag">Flag</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="loading">Loading. Please wait...</string>
 </resources>

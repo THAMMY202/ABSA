@@ -13,10 +13,12 @@ import com.test.absa.model.Country
 import com.test.absa.ui.CountryDetailsActivity
 import kotlinx.android.synthetic.main.country_layout.view.*
 
+
 class CountryNameAdapter(private val context: Context, var CountryList: List<Country>) :
     RecyclerView.Adapter<CountryNameAdapter.CustomViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
+
         val layoutInflater = LayoutInflater.from(context).inflate(
             R.layout.country_layout,
             parent, false
@@ -31,7 +33,11 @@ class CountryNameAdapter(private val context: Context, var CountryList: List<Cou
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
 
         holder.view.name?.text = CountryList[position].name
-        holder.view.capital?.text = concatenate(context.getString(R.string.capital_key), " ", CountryList[position].capital)
+        holder.view.capital?.text = concatenate(
+            context.getString(R.string.capital_key),
+            " ",
+            CountryList[position].capital
+        )
 
         GlideToVectorYou
             .init()
@@ -43,7 +49,7 @@ class CountryNameAdapter(private val context: Context, var CountryList: List<Cou
     }
 
 
-    class CustomViewHolder(var view: View, var alpha: String? = null,var name: String? = null) :
+    class CustomViewHolder(var view: View, var alpha: String? = null, var name: String? = null) :
         RecyclerView.ViewHolder(view) {
         companion object {
             var alphaCode = "alpha"
@@ -60,10 +66,10 @@ class CountryNameAdapter(private val context: Context, var CountryList: List<Cou
             }
         }
     }
+}
 
-    fun concatenate(vararg string: String?): String {
-        var sb = StringBuilder()
-        string.forEach { sb.append(it) }
-        return sb.toString()
-    }
+fun concatenate(vararg string: String?): String {
+    var sb = StringBuilder()
+    string.forEach { sb.append(it) }
+    return sb.toString()
 }

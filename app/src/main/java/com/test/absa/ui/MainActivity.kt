@@ -1,17 +1,18 @@
 package com.test.absa.ui
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.net.ConnectivityManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.test.absa.R
-import com.test.absa.model.*
 import com.google.gson.GsonBuilder
+import com.test.absa.R
 import com.test.absa.adapter.CountryNameAdapter
+import com.test.absa.model.*
 import com.test.absa.utils.Constants
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -21,15 +22,19 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var layoutManager: RecyclerView.LayoutManager
     private var countriesArrayList: MutableList<Country> = ArrayList()
     private var displayArrayList: MutableList<Country> = ArrayList()
+    private lateinit var dialog : ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        dialog = ProgressDialog.show(this, "","Loading. Please wait...", true)
 
         if (isNetworkAvailbale()) {
             this.getCountiesData()
@@ -65,6 +70,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getCountiesData() {
+
+        dialog.show()
+
         val retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -79,6 +87,8 @@ class MainActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this)
             country_recyclerView.layoutManager = layoutManager
             country_recyclerView.adapter = CountryNameAdapter(this, it)
+
+            dialog.hide()
 
             fun addData() {
                 for (item in it) {
