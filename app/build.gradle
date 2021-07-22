@@ -49,7 +49,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
 
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    implementation 'com.github.2coffees1team:GlideToVectorYou:v1.2.0'
+    implementation 'com.github.2coffees1team:GlideToVectorYou:v2.0.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.makeramen:roundedimageview:2.3.0'
 }

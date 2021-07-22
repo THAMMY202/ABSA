@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ABSA</string>
-    <string name="search">Search here</string>
-    <string name="capital_key">Capital</string>
+    <string name="capital_key">Capital - </string>
     <string name="capital">Cape Town, Pretoria, Bloemfontein</string>
     <string name="countryName">South Africa</string>
+    <string name="search">Search</string>
 </resources>

@@ -2,6 +2,10 @@ package com.test.absa.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.widget.EditText
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.test.absa.R
@@ -28,6 +32,32 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         this.getCountiesData()
+
+        searchView.setOnQueryTextListener(object : android.widget.SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(name: String): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                displayArrayList.clear()
+                if (newText.isNotEmpty() && newText.isNotBlank()) {
+                    val search = newText.toLowerCase()
+                    countriesArrayList.forEach {
+
+                        if (it.name.toLowerCase().contains(search)) {
+                            Log.d("TAG",it.name)
+                            displayArrayList.add(it)
+                        }
+                    }
+                } else {
+                    displayArrayList.addAll(countriesArrayList)
+                }
+                country_recyclerView.adapter = CountryNameAdapter(baseContext, displayArrayList)
+                country_recyclerView.adapter?.notifyDataSetChanged()
+                return true
+                }
+        })
     }
 
     private fun getCountiesData() {
@@ -39,6 +69,7 @@ class MainActivity : AppCompatActivity() {
         val service = retrofit.create(ICountryService::class.java)
 
         var response: Observable<List<Country>> = service.getAllCountries()
+        Log.d("TAG",response.toString())
 
         response.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler()).subscribe {
             layoutManager = LinearLayoutManager(this)
@@ -48,10 +79,10 @@ class MainActivity : AppCompatActivity() {
             fun addData() {
                 for (item in it) {
                     countriesArrayList.add(item)
+                    Log.d("TAG",it.toString())
                 }
             }
             addData()
         }
     }
-
 }

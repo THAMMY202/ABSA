@@ -1,9 +1,7 @@
 package com.test.absa.adapter
 
-import android.app.Activity
 import android.content.Context
 import android.net.Uri
-import android.provider.Settings.Global.getString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,10 +11,11 @@ import com.test.absa.R
 import com.test.absa.model.Country
 import kotlinx.android.synthetic.main.country_layout.view.*
 
+
 class CountryNameAdapter(private val context: Context, var CountryList: List<Country>) :
     RecyclerView.Adapter<CountryNameAdapter.CustomViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):CustomViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         val layoutInflater = LayoutInflater.from(context).inflate(
             R.layout.country_layout,
             parent, false
@@ -33,24 +32,32 @@ class CountryNameAdapter(private val context: Context, var CountryList: List<Cou
         var name = CountryList[position].name
 
         holder.view.name?.text = CountryList[position].name
-        holder.view.capital?.text = "Capital - " +CountryList[position].capital
-        //holder.view.capital?.text = getString(R.string.capital_key, CountryList[position].capital);
+        holder.view.capital?.text = concatenate(context.getString(R.string.capital_key),CountryList[position].capital)
 
-        var thumbnailImageView = holder.view.flag_imageView
-        GlideToVectorYou.justLoadImage(holder.view.context as Activity?, Uri.parse(CountryList[position].flag), thumbnailImageView)
+        GlideToVectorYou
+            .init()
+            .with(holder.view.context)
+            .load(Uri.parse(CountryList[position].flag), holder.view.flag_imageView);
 
         holder?.name = name
     }
 
 
-    class CustomViewHolder(var view: View,var name: String? = null): RecyclerView.ViewHolder(view){
+    class CustomViewHolder(var view: View, var name: String? = null) :
+        RecyclerView.ViewHolder(view) {
         companion object {
             var country_name = "Country name"
         }
-        init{
-            view.setOnClickListener{
+
+        init {
+            view.setOnClickListener {
             }
         }
     }
 
+    fun concatenate(vararg string: String?): String {
+        var sb = StringBuilder()
+        string.forEach { sb.append(it) }
+        return sb.toString()
+    }
 }
