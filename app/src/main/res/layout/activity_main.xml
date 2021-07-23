@@ -6,29 +6,41 @@
     android:padding="@dimen/layout_margin"
     tools:context=".ui.MainActivity">
 
-    <SearchView
-        android:layout_alignParentStart="true"
-        android:id="@+id/searchView"
+    <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:iconifiedByDefault="false"
-        android:inputType="textPersonName"
-        android:queryHint="@string/search"
-        android:focusable="true" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:visibility="gone"
-        android:text="@string/no_internet_error"
-        android:id="@+id/internet_Text"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_below="@+id/searchView"
-        android:id="@+id/country_recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+            <SearchView
+                android:id="@+id/searchView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:iconifiedByDefault="false"
+                android:inputType="textPersonName"
+                android:queryHint="@string/search" />
 
+            <TextView
+                android:id="@+id/internet_Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/no_internet_error"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/country_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/searchView" />
+
+        </LinearLayout>
+    </FrameLayout>
 </RelativeLayout>

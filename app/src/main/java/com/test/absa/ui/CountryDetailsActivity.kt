@@ -33,16 +33,16 @@ class CountryDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_country_details)
 
-        dialog = ProgressDialog.show(this, "", getString(R.string.loading), true)
+        dialog = ProgressDialog.show(this, getString(R.string.downloading), getString(R.string.loading), true)
 
-        var alphaCode = intent.getStringExtra(CountryNameAdapter.CustomViewHolder.alphaCode)
-        var countryName = intent.getStringExtra(CountryNameAdapter.CustomViewHolder.countryName)
+        val alphaCode = intent.getStringExtra(CountryNameAdapter.CustomViewHolder.alphaCode)
+        val countryName = intent.getStringExtra(CountryNameAdapter.CustomViewHolder.countryName)
 
         supportActionBar?.title = countryName
 
         if (isNetworkAvailbale()) {
 
-            var retrofit = Retrofit.Builder().addConverterFactory(
+            val retrofit = Retrofit.Builder().addConverterFactory(
                 GsonConverterFactory.create(
                     GsonBuilder().create()
                 )
@@ -50,8 +50,8 @@ class CountryDetailsActivity : AppCompatActivity() {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(Constants.BASE_URL+"alpha/").build()
 
-            var service = retrofit.create(ICountryService_detail::class.java)
-            var response: Observable<Country> = service.getCountryByAlpha(alphaCode.toString())
+            val service = retrofit.create(ICountryService_detail::class.java)
+            val response: Observable<Country> = service.getCountryByAlpha(alphaCode.toString())
 
             response.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
@@ -63,7 +63,7 @@ class CountryDetailsActivity : AppCompatActivity() {
                 getString(R.string.no_internet_error),
                 Toast.LENGTH_SHORT
             )
-            myToast.setGravity(Gravity.LEFT, 200, 200)
+            myToast.setGravity(Gravity.START, 200, 200)
             myToast.show()
         }
     }
@@ -71,8 +71,8 @@ class CountryDetailsActivity : AppCompatActivity() {
     private fun renderCountryData(country: Country) {
 
         dialog.show()
-        var languages: String = ""
-        var currencies: String = ""
+        var languages = ""
+        var currencies  = ""
 
         country.languages.forEach {
             languages = "\n" + it.nativeName + "\n"

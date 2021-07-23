@@ -23,18 +23,18 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
 
     private lateinit var layoutManager: RecyclerView.LayoutManager
     private var countriesArrayList: MutableList<Country> = ArrayList()
     private var displayArrayList: MutableList<Country> = ArrayList()
-    private lateinit var dialog : ProgressDialog
+    private lateinit var dialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        dialog = ProgressDialog.show(this, "","Loading. Please wait...", true)
+        dialog = ProgressDialog.show(this, getString(R.string.downloading), getString(R.string.loading), true)
 
         if (isNetworkAvailbale()) {
             this.getCountiesData()
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             internet_Text.visibility = View.VISIBLE
         }
 
-        searchView.setOnQueryTextListener(object : android.widget.SearchView.OnQueryTextListener {
+        searchView.setOnQueryTextListener(object : android.widget.SearchView.OnQueryTextListener, CountryNameAdapter.ItemClickListener {
 
             override fun onQueryTextSubmit(name: String): Boolean {
                 return true
@@ -62,9 +62,16 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     displayArrayList.addAll(countriesArrayList)
                 }
-                country_recyclerView.adapter = CountryNameAdapter(baseContext, displayArrayList)
+                country_recyclerView.adapter = CountryNameAdapter( baseContext, displayArrayList)
                 country_recyclerView.adapter?.notifyDataSetChanged()
                 return true
+            }
+
+            override fun onItemClick(country: Country) {
+
+            }
+
+            override fun onLongClick(country: Country) {
             }
         })
     }
@@ -74,9 +81,9 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
 
         val retrofit = Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .baseUrl(Constants.BASE_URL).build()
+                .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .baseUrl(Constants.BASE_URL).build()
 
         val service = retrofit.create(ICountryService::class.java)
 
